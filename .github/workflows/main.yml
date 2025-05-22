@@ -1,0 +1,42 @@
+name: Build & Deploy secureCart
+
+on: 
+    push:
+        branches:
+            - pipeline
+
+jobs:
+    ci_validation:
+        name: Build & Deploy - CI Validation
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Ruby
+              uses: ruby/setup-ruby@v1
+              with:
+                ruby-version: 3.3.6
+            
+            - name: Install dependencies
+              run: bundle install
+
+            - name: Test
+              run: bundle exec rspec
+
+            - name: Lint
+              run: bundle exec rubocop 
+
+            - name: Run Snyk
+              uses: snyk/actions/ruby@master
+              continue-on-error: true
+              env:
+                SNYK_TOEKN: ${{ secrets.SNYK_TOKEN }}
+              with:
+                command: code test
+
+            - name: ZAP scan
+              uses: zaproxy/action-full-scan@v0.12.0
+              with:
+                target: 'http://127.0.0.1:3000'
+    
