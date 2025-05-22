@@ -1,1 +1,3 @@
-json.array! @admin_stocks, partial: "admin/stocks/admin_stock", as: :admin_stock
+# frozen_string_literal: true
+
+json.array! @admin_stocks, partial: 'admin/stocks/admin_stock', as: :admin_stock
