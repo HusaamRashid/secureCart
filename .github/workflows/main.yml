@@ -31,9 +31,14 @@ jobs:
               uses: snyk/actions/ruby@master
               continue-on-error: true
               env:
-                SNYK_TOEKN: ${{ secrets.SNYK_TOKEN }}
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
               with:
                 command: code test
+
+            - name: Start Rails server
+              run: |
+                bundle exec rails db:setup
+                bundle exec rails s -d
 
             - name: ZAP scan
               uses: zaproxy/action-full-scan@v0.12.0

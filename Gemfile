@@ -81,3 +81,7 @@ gem "font-awesome-sass", "~> 6.5.1"
 gem "stripe", "~> 13.4"
 
 gem 'rspec-rails'
+
+gem 'rubocop'
+
+gem 'rubocop-rails'
